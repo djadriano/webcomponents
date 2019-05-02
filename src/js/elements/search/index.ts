@@ -25,10 +25,10 @@ export default class SearchElement extends HTMLElement {
   private connectedCallback() {
     this.searchField.addEventListener('input', this.setSearchValue);
     this.searchForm.addEventListener('submit', this.formSubmit);
-    this.searchButton.addEventListener('speech-results', (e) => this.getSpeechResults(e.detail.results));
+    this.searchButton.addEventListener('speech-results', (e: any) => this.getSpeechResults(e.detail.results));
   }
 
-  private disconnectedCallback(): void {
+  private disconnectedCallback() {
     this.searchForm.removeEventListener('submit', this.formSubmit);
   }
 
@@ -67,23 +67,25 @@ export default class SearchElement extends HTMLElement {
     this.setAttribute('search', newValue);
   }
 
-  private setSearchValue = (evt) => {
-    this.search = evt.target.value;
-  }
-
   // ----------------------------------------
   // Others Methods
   // ----------------------------------------
 
+  private setSearchValue = (evt: any) => {
+    this.search = evt.target.value;
+  }
+
   private fetchBooks = async () => {
+    const bookCarousel = document.querySelector('book-carousel');
     const fetchURL = this.searchForm.getAttribute('action');
-    let response = await fetch(`${fetchURL}?title=${this.search}`, {
+    const responseApi = await fetch(`${fetchURL}?title=${this.search}`, {
       headers: {
         'Accept': 'application/json'
       }
     });
-    let data = await response.json();
-    console.log('fetchBooks -> ', data);
+    let data = await responseApi.json();
+
+    bookCarousel.setAttribute('books', JSON.stringify(data));
   }
 
   private formSubmit = (evt: MouseEvent) => {

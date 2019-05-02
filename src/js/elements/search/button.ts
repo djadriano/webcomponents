@@ -1,10 +1,15 @@
 import ButtonTemplate from 'templates/search/button';
 
 export default class SearchButtonElement extends HTMLElement {
+  private searchButton: HTMLElement;
+
   public constructor() {
     super();
 
-    this.appendChild(ButtonTemplate.content.cloneNode(true));
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.appendChild(ButtonTemplate.content.cloneNode(true));
+
+    this.searchButton = this.shadowRoot.querySelector('button');
   }
 
   // ---------------------------------
@@ -12,11 +17,11 @@ export default class SearchButtonElement extends HTMLElement {
   // ---------------------------------
 
   private connectedCallback() {
-    this.addEventListener('click', this.initializeSpeech);
+    this.searchButton.addEventListener('click', this.initializeSpeech);
   }
 
   private disconnectedCallback = () => {
-    this.removeEventListener('click', this.initializeSpeech);
+    this.searchButton.removeEventListener('click', this.initializeSpeech);
   }
 
   // ---------------------------------
