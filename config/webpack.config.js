@@ -1,45 +1,50 @@
-const { resolve } = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { resolve } = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const resolvePathName = path => resolve(__dirname, path);
 
 module.exports = {
-  entry: resolvePathName("../src/js/index"),
-  devtool: "inline-source-map",
+  entry: resolvePathName('../src/js/index'),
+  devtool: 'inline-source-map',
   output: {
-    path: resolvePathName("../dist"),
-    filename: "app.bundle.js"
+    path: resolvePathName('../dist'),
+    filename: 'app.bundle.js',
+    publicPath: '/'
   },
   resolve: {
-    extensions: [".ts", ".js", ".json"]
+    extensions: ['.js', '.ts'],
+    alias: {
+      elements: resolvePathName('../src/js/elements'),
+      templates: resolvePathName('../src/js/templates')
+    }
   },
   module: {
     rules: [
       {
         test: [/\.ts?$/],
-        use: "babel-loader",
+        use: 'babel-loader',
         exclude: /node_modules/
       }
     ]
   },
   devServer: {
     hot: true,
-    host: "0.0.0.0",
+    host: '0.0.0.0',
     port: 8080,
-    publicPath: "/",
+    publicPath: '/',
     historyApiFallback: true,
     disableHostCheck: true,
-    stats: "errors-only",
+    stats: 'errors-only',
     headers: {
-      "Access-Control-Allow-Origin": "*"
+      'Access-Control-Allow-Origin': '*'
     },
     open: false
   },
-  context: resolvePathName("../src"),
+  context: resolvePathName('../src'),
   plugins: [
     new HtmlWebpackPlugin({
-      template: "../src/index.html",
-      filename: "index.html"
+      template: '../src/index.html',
+      filename: 'index.html'
     })
   ]
 };
