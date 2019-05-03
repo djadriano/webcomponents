@@ -11,7 +11,7 @@ export default class CarouselItemElement extends HTMLElement {
     this.shadowRoot.appendChild(CarouselItemTemplate.content.cloneNode(true));
 
     this.itemTitle = this.shadowRoot.querySelector('h2');
-    this.itemImage = this.shadowRoot.querySelector('img');
+    this.itemImage = this.shadowRoot.querySelector('picture');
   }
 
   // ---------------------------------
@@ -24,7 +24,7 @@ export default class CarouselItemElement extends HTMLElement {
         if(newValue) this.itemTitle.textContent = newValue;
         break;
       case 'cover-id':
-        if(newValue) this.itemImage.setAttribute('src', `http://covers.openlibrary.org/b/id/${newValue}-M.jpg`);
+        if(newValue) this.setImages(newValue);
         break;
     }
   }
@@ -49,6 +49,12 @@ export default class CarouselItemElement extends HTMLElement {
   // Others Methods
   // ---------------------------------
 
-  private addItems = (docs: any) => {}
+  private setImages = (coverId: string) => {
+    this.itemImage.innerHTML = `
+      <source media="(min-width: 768px)" srcset="http://covers.openlibrary.org/b/id/${coverId}-M.jpg">
+      <source media="(min-width: 1024px)" srcset="http://covers.openlibrary.org/b/id/${coverId}-L.jpg">
+      <img src="http://covers.openlibrary.org/b/id/${coverId}-S.jpg">
+    `;
+  }
 
 }
