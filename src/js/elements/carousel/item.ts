@@ -3,6 +3,7 @@ import CarouselItemTemplate from 'templates/carousel/item';
 export default class CarouselItemElement extends HTMLElement {
   private itemTitle: HTMLElement;
   private itemImage: HTMLElement;
+  private itemAuthor: HTMLElement;
 
   public constructor() {
     super();
@@ -11,6 +12,7 @@ export default class CarouselItemElement extends HTMLElement {
     this.shadowRoot.appendChild(CarouselItemTemplate.content.cloneNode(true));
 
     this.itemTitle = this.shadowRoot.querySelector('h2');
+    this.itemAuthor = this.shadowRoot.querySelector('h6');
     this.itemImage = this.shadowRoot.querySelector('picture');
   }
 
@@ -27,6 +29,9 @@ export default class CarouselItemElement extends HTMLElement {
       case 'title':
         if(newValue) this.itemTitle.textContent = newValue;
         break;
+      case 'author':
+        if(newValue) this.itemAuthor.textContent = newValue;
+        break;
       case 'cover-id':
         if(newValue) this.setImages(newValue);
         break;
@@ -34,7 +39,7 @@ export default class CarouselItemElement extends HTMLElement {
   }
 
   private static get observedAttributes() {
-    return ['title', 'cover-id'];
+    return ['title', 'cover-id', 'author'];
   }
 
   // ----------------------------------------
@@ -57,7 +62,7 @@ export default class CarouselItemElement extends HTMLElement {
     this.itemImage.innerHTML = `
       <source media="(min-width: 768px)" data-srcset="http://covers.openlibrary.org/b/id/${coverId}-M.jpg">
       <source media="(min-width: 1024px)" data-srcset="http://covers.openlibrary.org/b/id/${coverId}-L.jpg">
-      <img data-src="http://covers.openlibrary.org/b/id/${coverId}-S.jpg">
+      <img data-src="http://covers.openlibrary.org/b/id/${coverId}-M.jpg">
     `;
   }
 

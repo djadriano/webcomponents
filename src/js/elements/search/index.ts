@@ -85,7 +85,7 @@ export default class SearchElement extends HTMLElement {
     });
     const data = await responseApi.json();
     const {docs} = data;
-    const booksData = docs.filter((item: any) => item.cover_i && item.cover_i != -1);
+    const booksData = docs.filter((item: any) => item.cover_i && item.cover_i != -1 && item.author_name);
 
     bookCarousel.setAttribute('books', JSON.stringify(booksData));
     this.setLastSearchRelativeTime();

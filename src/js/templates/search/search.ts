@@ -13,10 +13,14 @@ template.innerHTML = `
 
     input[type="search"] {
       width: 100%;
+      font-size: 1.4rem;
+      border: 0;
     }
 
     span {
-      margin-top: 20px;
+      font-size: 14px;
+      line-height: 24px;
+      color: #666;
     }
   </style>
   <form action="http://openlibrary.org/search.json" noValidate>

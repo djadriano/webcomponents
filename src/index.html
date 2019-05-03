@@ -11,10 +11,107 @@
     <title>
       Custom Elements Project
     </title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        font-size: 62.5%;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      header {
+        background-color: #eae9e5;
+        background-image: url("/assets/images/header-image-mobile.jpg");
+        background-size: cover;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-position: top right 20%;
+        padding: 3rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 50%;
+        justify-content: space-between;
+        position: relative;
+      }
+
+      .header__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+      }
+
+      header h1,
+      header p {
+        max-width: 60%;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 3rem;
+      }
+
+      header p {
+        color: #666;
+        font-size: 1.6rem;
+      }
+
+      search-bar {
+        width: 100%;
+        padding: 2rem;
+        background: #fff;
+        border-radius: 0.6rem;
+      }
+
+      book-carousel {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        flex: 0 1 auto;
+      }
+
+      @media screen and (min-width: 768px) {
+        header {
+          background-size: contain;
+          background-position-x: right;
+          padding: 4rem;
+        }
+      }
+    </style>
   </head>
 
   <body>
-    <search-bar placeholder="Search For:" search=""></search-bar>
-    <book-carousel></book-carousel>
+    <main>
+      <header>
+        <search-bar placeholder="Search For..."></search-bar>
+        <div class="header__content">
+          <h1>Start read now</h1>
+          <p>
+            Enjoy a book right now!
+          </p>
+        </div>
+      </header>
+      <book-carousel>
+        <p>Please, find a book using the search!</p>
+      </book-carousel>
+    </main>
   </body>
 </html>

@@ -82,7 +82,7 @@ export default class CarouselElement extends HTMLElement {
   }
 
   private play = () => {
-    this.carouselPlayInterval = setInterval(this.scrollToNext, 3000);
+    this.carouselPlayInterval = setInterval(this.scrollToNext, 5000);
   }
 
   private stop = () => {
@@ -95,8 +95,9 @@ export default class CarouselElement extends HTMLElement {
 
   private addItems = (docs: any) => {
     this.innerHTML = `
+      <h2 slot="title">Results of your search</h2>
       ${docs.map((item: any) => `
-        <book-carousel-item title="${item.title}" cover-id="${item.cover_i}"></book-carousel-item>
+        <book-carousel-item title="${item.title}" cover-id="${item.cover_i}" author="${item.author_name[0]}"></book-carousel-item>
       `).join('')}
     `;
   }
