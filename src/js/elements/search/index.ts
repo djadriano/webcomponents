@@ -83,9 +83,11 @@ export default class SearchElement extends HTMLElement {
         'Accept': 'application/json'
       }
     });
-    let data = await responseApi.json();
+    const data = await responseApi.json();
+    const {docs} = data;
+    const booksData = docs.filter((item: any) => item.cover_i && item.cover_i != -1);
 
-    bookCarousel.setAttribute('books', JSON.stringify(data));
+    bookCarousel.setAttribute('books', JSON.stringify(booksData));
   }
 
   private formSubmit = (evt: MouseEvent) => {
