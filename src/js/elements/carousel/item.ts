@@ -18,6 +18,10 @@ export default class CarouselItemElement extends HTMLElement {
   // Lifecycle methods
   // ---------------------------------
 
+  private connectedCallback() {
+    this.lazyLoadImages();
+  }
+
   private attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     switch (name) {
       case 'title':
@@ -51,10 +55,39 @@ export default class CarouselItemElement extends HTMLElement {
 
   private setImages = (coverId: string) => {
     this.itemImage.innerHTML = `
-      <source media="(min-width: 768px)" srcset="http://covers.openlibrary.org/b/id/${coverId}-M.jpg">
-      <source media="(min-width: 1024px)" srcset="http://covers.openlibrary.org/b/id/${coverId}-L.jpg">
-      <img src="http://covers.openlibrary.org/b/id/${coverId}-S.jpg">
+      <source media="(min-width: 768px)" data-srcset="http://covers.openlibrary.org/b/id/${coverId}-M.jpg">
+      <source media="(min-width: 1024px)" data-srcset="http://covers.openlibrary.org/b/id/${coverId}-L.jpg">
+      <img data-src="http://covers.openlibrary.org/b/id/${coverId}-S.jpg">
     `;
   }
 
+  private preloadImage = (target: HTMLElement) => {
+    let images = target.querySelector('img');
+    let sources = target.querySelectorAll('source');
+
+    sources.forEach(source => {
+      source.srcset = source.getAttribute('data-srcset');
+    });
+
+    images.src = images.getAttribute('data-src');
+  }
+
+  private lazyLoadImages = () => {
+    const pictureEl = this.shadowRoot.querySelectorAll('picture');
+    const observerConfig = {
+      rootMargin: '0px 0px',
+      threshold: 0
+    };
+
+    let observerImages = new IntersectionObserver((images, self) => {
+      images.forEach((entry: any) => {
+        if (entry.isIntersecting) {
+          this.preloadImage(entry.target);
+          self.unobserve(entry.target);
+        }
+      });
+    }, observerConfig);
+
+    pictureEl.forEach(image => observerImages.observe(image));
+  }
 }
