@@ -4,7 +4,7 @@ export default class SearchElement extends HTMLElement {
   private searchForm: HTMLElement;
   private searchField: HTMLElement;
   private searchButton: HTMLElement;
-  private searchLabel: HTMLElement;
+  private searchLastSearchTime: HTMLElement;
 
   public constructor() {
     super();
@@ -15,7 +15,7 @@ export default class SearchElement extends HTMLElement {
     this.searchForm = this.shadowRoot.querySelector('form');
     this.searchField = this.shadowRoot.querySelector('input[type="search"]');
     this.searchButton = this.shadowRoot.querySelector('search-bar-button');
-    this.searchLabel = this.shadowRoot.querySelector('span');
+    this.searchLastSearchTime = this.shadowRoot.querySelector('span');
   }
 
   // ----------------------------------------
@@ -88,6 +88,7 @@ export default class SearchElement extends HTMLElement {
     const booksData = docs.filter((item: any) => item.cover_i && item.cover_i != -1);
 
     bookCarousel.setAttribute('books', JSON.stringify(booksData));
+    this.setLastSearchRelativeTime();
   }
 
   private formSubmit = (evt: MouseEvent) => {
@@ -98,5 +99,19 @@ export default class SearchElement extends HTMLElement {
   private getSpeechResults = (data: string) => {
     this.search = data;
     this.fetchBooks();
+  }
+
+  private setLastSearchRelativeTime = () => {
+    const serverDate = new Date();
+    const serverDateStr = serverDate.toLocaleString(navigator.language, {
+      year: 'numeric',
+      month: 'long',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+
+    this.searchLastSearchTime.innerHTML = `Last search: ${serverDateStr}`;
   }
 }
