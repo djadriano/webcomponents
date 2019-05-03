@@ -4,8 +4,8 @@ template.innerHTML = `
   <style>
     section {
       position: relative;
-      max-width: 800px;
-      padding: 0 10px;
+      max-width: 100%;
+      border: 1px dotted;
     }
 
     div {
@@ -20,11 +20,10 @@ template.innerHTML = `
     }
 
     ::slotted(book-carousel-item) {
-      scroll-snap-align: center;
-      margin: 10px;
+      scroll-snap-align: start;
       position: relative;
-      min-width: 75%;
-      min-height: 95%;
+      min-width: 100%;
+      min-height: 100%;
       border-radius: 10px;
       border: 1px solid;
     }
